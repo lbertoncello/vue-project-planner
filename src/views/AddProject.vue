@@ -13,13 +13,24 @@ export default {
   data() {
     return {
       title: '',
-      details: ''
+      details: '',
+      uri: 'http://localhost:3000/projects'
     }
   },
   methods: {
     handleSubmit() {
-      console.log(this.title)
-      console.log(this.details)
+      const project = {
+        title: this.title,
+        details: this.details,
+        complete: false
+      }
+
+      fetch(this.uri, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project)
+      }).then(() => this.$router.push({ name: 'Home' }))
+        .catch((error) => console.error(error))
     }
   }
 }
