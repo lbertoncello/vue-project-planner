@@ -19,6 +19,21 @@ export default {
       uri: `http://localhost:3000/projects/${this.id}`,
     }
   },
+  methods: {
+    handleSubmit() {
+      const project = {
+        title: this.title,
+        details: this.details
+      }
+
+      fetch(this.uri, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project)
+      }).then(() => this.$router.push({ name: 'Home' }))
+        .catch((error) => console.error(error))
+    }
+  },
   mounted() {
     fetch(this.uri)
       .then((res) => res.json())
