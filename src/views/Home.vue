@@ -2,8 +2,8 @@
   <div class="home">
     <!-- $event is the var which stores the value passed on $emit. -->
     <FilterNav @filterChange="handleFilterChange" :currentFilter="currentFilter" />
-    <div v-if="projects.length">
-      <div v-for="project in projects" :key="project.id">
+    <div v-if="filteredProjects.length">
+      <div v-for="project in filteredProjects" :key="project.id">
         <SingleProject :project="project" 
           @delete-project="handleDelete" 
           @complete-project="handleComplete" />
@@ -41,6 +41,18 @@ export default {
     },
     handleFilterChange(filter) {
       this.currentFilter = filter
+    }
+  },
+  computed: {
+    filteredProjects() {
+      if (this.currentFilter === 'completed') {
+        return this.projects.filter((project) => project.complete)
+      } 
+      if (this.currentFilter === 'ongoing') {
+        return this.projects.filter((project) => !project.complete)
+      }
+      
+      return this.projects
     }
   }
 }
