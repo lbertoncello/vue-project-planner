@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <!-- $event is the var which stores the value passed on $emit. -->
+    <FilterNav @filterChange="handleFilterChange" :currentFilter="currentFilter" />
     <div v-if="projects.length">
       <div v-for="project in projects" :key="project.id">
         <SingleProject :project="project" 
@@ -12,13 +14,15 @@
 
 <script>
 import SingleProject from '../components/SingleProject.vue'
+import FilterNav from '../components/FilterNav.vue'
 
 export default {
   name: 'Home',
-  components: { SingleProject },
+  components: { SingleProject, FilterNav },
   data() {
     return {
-      projects: []
+      projects: [],
+      currentFilter: 'all'
     }
   },
   mounted() {
@@ -34,6 +38,9 @@ export default {
     handleComplete(id) {
       let project = this.projects.find((project) => project.id === id)
       project.complete = !project.complete
+    },
+    handleFilterChange(filter) {
+      this.currentFilter = filter
     }
   }
 }
